@@ -1,0 +1,107 @@
+import 'package:i12mobile/domain/models/model/base_model.dart';
+import 'package:i12mobile/domain/models/model/discipular/ecd_licao_model.dart';
+import 'package:i12mobile/domain/models/model/pessoas_models.dart';
+import 'package:i12mobile/domain/models/shared/descrition_model.dart';
+import '../descendencia.dart';
+import '../igreja.dart';
+import 'ecd_aluno_frequencia.dart';
+import 'ecd_model.dart';
+import 'ecd_modulo_model.dart';
+
+class EcdAula extends BaseModel {
+  final EcdModel escola;
+  final EcdLicao licao;
+  final Descrition aulaTipo;
+  final PessoasModels professor;
+  final List<EcdAlunoFrequencia> alunos;
+  final String dataAula;
+
+  EcdAula(
+      {required super.id,
+      required super.descritionDto,
+      required this.escola,
+      required this.licao,
+      required this.aulaTipo,
+      required this.professor,
+      this.alunos = const [],
+      required this.dataAula});
+
+  factory EcdAula.fromJson(Map<String, dynamic> json) {
+    return EcdAula(
+      id: json['id'] ?? '',
+      descritionDto: json['descritionDto'],
+      /*!= null
+          ? Descrition(json['descritionDto'], id: '', descricao: '')
+          : Descrition('', descricao: '', id: ''),*/
+      escola: json['escola'] != null
+          ? EcdModel.fromJson(json['escola'])
+          : EcdModel(
+              id: '',
+              descritionDto: Descrition(descricao: '', id: ''),
+              igreja: IgrejaModels(
+                  razaoSocial: '', sigla: '', nomeFantasia: '', documento: ''),
+              descricao: '',
+              modulo: EcdModulo(
+                  id: '',
+                  descritionDto: Descrition(descricao: '', id: ''),
+                  descricao: '',
+                  nivel: 0,
+                  livro: 0),
+              dataInicio: '',
+              dataConclusao: '',
+              totalAlunos: 0,
+              localAula: ''),
+      licao: json['licao'] != null
+          ? EcdLicao.fromJson(json['licao'])
+          : EcdLicao(
+              id: '',
+              descritionDto: Descrition(descricao: '', id: ''),
+              descricao: '',
+              modulo: EcdModulo(
+                  id: '',
+                  descritionDto: Descrition(descricao: '', id: ''),
+                  descricao: '',
+                  nivel: 0,
+                  livro: 0),
+              capitulo: 0),
+      aulaTipo: json['aulaTipo'] is Map<String, dynamic>
+          ? Descrition.fromJson(json['aulaTipo'])
+          : Descrition(descricao: '', id: ''),
+      professor: json['professor'] != null
+          ? PessoasModels.fromJson(json['professor'])
+          : PessoasModels(
+              id: json['id'] ?? '',
+              descritionDto: json['descritionDto'],
+              /* != null
+                  ? Descrition(json['descritionDto'],
+                      id: '',
+                      descricao: '') // Convertendo a String em Descrition
+                  : Descrition('',
+                      descricao: '',
+                      id: ''),*/ // Se for null, passa uma Descrition vazia
+              nome: '',
+              sexo: '',
+              descendencia: DescendenciaModels(descricao: '', sigla: ''),
+              lider: ''),
+      alunos: json['alunos'] != null
+          ? (json['alunos'] as List)
+              .map((aluno) => EcdAlunoFrequencia.fromJson(aluno))
+              .toList()
+          : [],
+      dataAula: json['dataAula'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'descritionDto': descritionDto.toJson(),
+      'id': id,
+      'escola': escola.toJson(),
+      'licao': licao.toJson(),
+      'aulaTipo': aulaTipo.toJson(),
+      'professor': professor.toJson(),
+      'alunos': alunos.map((aluno) => aluno.toJson()).toList(),
+      'dataAula': dataAula
+    };
+  }
+}

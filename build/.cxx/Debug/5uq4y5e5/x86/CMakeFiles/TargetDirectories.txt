@@ -1,0 +1,2 @@
+/home/danilo/ProjetoTrabalhor/salva_i12/build/.cxx/Debug/5uq4y5e5/x86/CMakeFiles/edit_cache.dir
+/home/danilo/ProjetoTrabalhor/salva_i12/build/.cxx/Debug/5uq4y5e5/x86/CMakeFiles/rebuild_cache.dir
