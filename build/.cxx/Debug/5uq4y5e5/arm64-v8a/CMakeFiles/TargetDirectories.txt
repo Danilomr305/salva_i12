@@ -1,2 +1,0 @@
-/home/danilo/ProjetoTrabalhor/salva_i12/build/.cxx/Debug/5uq4y5e5/arm64-v8a/CMakeFiles/edit_cache.dir
-/home/danilo/ProjetoTrabalhor/salva_i12/build/.cxx/Debug/5uq4y5e5/arm64-v8a/CMakeFiles/rebuild_cache.dir
