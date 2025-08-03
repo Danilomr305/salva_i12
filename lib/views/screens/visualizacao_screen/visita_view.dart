@@ -7,7 +7,7 @@ import 'package:i12mobile/domain/core/themes/containers_all_estilo.dart';
 import 'package:i12mobile/domain/core/themes/global_colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../../data/provider/escada_do_sucesso_provider/nova_vida_provider.dart';
+import '../../../data/provider/escada_do_sucesso_provider/visitas_provider.dart';
 
 class NovaLifeView extends StatefulWidget {
   const NovaLifeView({super.key});
@@ -45,27 +45,25 @@ class _NovaLifeViewState extends State<NovaLifeView> {
   @override
   Widget build(BuildContext context) {
     //NovaLifeProvider novaLifeProvider = NovaLifeProvider.of(context) as NovaLifeProvider;
-    NovaLifeProvider novaLifeProvider = Provider.of<NovaLifeProvider>(context);
+    VisitaDetalheProvider visitaProvider =
+        Provider.of<VisitaDetalheProvider>(context);
 
     int? index;
 
     //Controlla oque vai ser ixibido na dela de View
-    if (novaLifeProvider.indexLifes != null) {
-      controllerPessoa.text = novaLifeProvider.lifesSelected!.pessoa.nome;
+    if (visitaProvider.indexLifes != null) {
+      controllerPessoa.text = visitaProvider.lifesSelected!.pessoa.nome;
       controllerDataUltimaVisita.text =
-          novaLifeProvider.lifesSelected!.dataUltimaVisita;
-      controllerPedidoOracao.text =
-          novaLifeProvider.lifesSelected!.pedidoOracao;
+          visitaProvider.lifesSelected!.dataUltimaVisita;
+      controllerPedidoOracao.text = visitaProvider.lifesSelected!.pedidoOracao;
       controllerNumeroTelefone.text =
-          novaLifeProvider.lifesSelected!.numeroTelefone;
+          visitaProvider.lifesSelected!.numeroTelefone;
       controllerDescendencia.text =
-          novaLifeProvider.lifesSelected!.descendencia.descricao;
-      controllerConvidadoPor.text =
-          novaLifeProvider.lifesSelected!.convidadoPor;
+          visitaProvider.lifesSelected!.descendencia.descricao;
+      controllerConvidadoPor.text = visitaProvider.lifesSelected!.convidadoPor;
       controllerTipoConversao.text =
-          novaLifeProvider.lifesSelected!.tipoConversao;
-      controllerEstaEmCelula.text =
-          novaLifeProvider.lifesSelected!.estaEmCelula;
+          visitaProvider.lifesSelected!.tipoConversao.toString();
+      controllerEstaEmCelula.text = visitaProvider.lifesSelected!.estaEmCelula;
     }
 
     return Scaffold(
@@ -172,8 +170,8 @@ class _NovaLifeViewState extends State<NovaLifeView> {
                       ),
                       TextButton(
                         onPressed: () {
-                          novaLifeProvider.indexLifes = null;
-                          novaLifeProvider.lifes.removeAt(index!);
+                          visitaProvider.indexLifes = null;
+                          visitaProvider.lifes.removeAt(index!);
                           context.push('/createrVisitante');
                         },
                         style: ButtonStyle(

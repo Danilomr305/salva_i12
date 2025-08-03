@@ -3,7 +3,7 @@ import 'package:i12mobile/data/provider/cadastros_provides/pessoas_provider.dart
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/alunos_providers/alunos_ecd_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/alunos_providers/alunos_uni_vida_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/ecd_provider.dart';
-import 'package:i12mobile/data/provider/escada_do_sucesso_provider/nova_vida_provider.dart';
+import 'package:i12mobile/data/provider/escada_do_sucesso_provider/visitas_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/registros_aulas_providers/registros_aula_ecd_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/registros_aulas_providers/registros_aula_uni_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/rota_da_vida_provider.dart';
@@ -24,8 +24,8 @@ final providers = [
   ChangeNotifierProvider<RotaDaVidaProvider>(
     create: (context) => RotaDaVidaProvider(),
   ),
-  ChangeNotifierProvider<NovaLifeProvider>(
-    create: (context) => NovaLifeProvider(),
+  ChangeNotifierProvider<VisitaDetalheProvider>(
+    create: (context) => VisitaDetalheProvider(),
   ),
   ChangeNotifierProvider<UsuarioProvider>(
     create: (context) => UsuarioProvider(),

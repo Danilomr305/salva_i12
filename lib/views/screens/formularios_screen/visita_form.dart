@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:i12mobile/data/provider/escada_do_sucesso_provider/nova_vida_provider.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:i12mobile/data/provider/escada_do_sucesso_provider/visitas_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../domain/core/themes/containers_all_estilo.dart';
 import '../../../domain/core/themes/global_colors.dart';
 import '../../../domain/models/model/descendencia.dart';
-import '../../../domain/models/model/ganhar/visita_models.dart';
+import '../../../domain/models/model/ganhar/visita_detalhe_models.dart';
 import '../../../domain/models/model/pessoas_models.dart';
 import '../../../domain/models/shared/descrition_model.dart';
 import '../../widgets/field_form_button.dart';
@@ -22,6 +22,17 @@ class NovaVidaForm extends StatefulWidget {
 
 class _NovaVidaFormState extends State<NovaVidaForm> {
   String title = 'Novo Visitante';
+
+  final List<String> situacao = [
+    'Não Converteu',
+    'Visitante',
+    'Novo Convertido',
+    'Reconciliação',
+    'Outra igreja'
+  ];
+
+  // Valor selecionado
+  String? situacaoSelecionada;
 
   // Controladores de texto
   TextEditingController controllerPessoa = TextEditingController();
@@ -40,27 +51,25 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
 
   @override
   Widget build(BuildContext context) {
-    NovaLifeProvider novaLifeProvider = Provider.of<NovaLifeProvider>(context);
+    VisitaDetalheProvider visitaProvider =
+        Provider.of<VisitaDetalheProvider>(context);
     int? index;
 
-    if (novaLifeProvider.indexLifes != null) {
-      controllerPessoa.text = novaLifeProvider.lifesSelected!.pessoa.nome;
+    if (visitaProvider.indexLifes != null) {
+      controllerPessoa.text = visitaProvider.lifesSelected!.pessoa.nome;
       controllerDataUltimaVisita.text =
-          novaLifeProvider.lifesSelected!.dataUltimaVisita;
-      controllerPedidoOracao.text =
-          novaLifeProvider.lifesSelected!.pedidoOracao;
+          visitaProvider.lifesSelected!.dataUltimaVisita;
+      controllerPedidoOracao.text = visitaProvider.lifesSelected!.pedidoOracao;
       controllerNumeroTelefone.text =
-          novaLifeProvider.lifesSelected!.numeroTelefone;
+          visitaProvider.lifesSelected!.numeroTelefone;
       controllerDescendencia.text =
-          novaLifeProvider.lifesSelected!.descendencia.sigla;
-      controllerConvidadoPor.text =
-          novaLifeProvider.lifesSelected!.convidadoPor;
+          visitaProvider.lifesSelected!.descendencia.sigla;
+      controllerConvidadoPor.text = visitaProvider.lifesSelected!.convidadoPor;
       controllerTipoConversao.text =
-          novaLifeProvider.lifesSelected!.tipoConversao;
-      controllerEstaEmCelula.text =
-          novaLifeProvider.lifesSelected!.estaEmCelula;
+          visitaProvider.lifesSelected!.tipoConversao.descricao;
+      controllerEstaEmCelula.text = visitaProvider.lifesSelected!.estaEmCelula;
       controllerTotalVisitas.text =
-          novaLifeProvider.lifesSelected!.totalVisitas.toString();
+          visitaProvider.lifesSelected!.totalVisitas.toString();
 
       setState(() {
         this.title = 'Edit Visitante';
@@ -78,7 +87,7 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
 
       _key.currentState?.save();
 
-      VisitaModels novaVisita = VisitaModels(
+      VisitaDetalheModels novaVisita = VisitaDetalheModels(
           pessoa: PessoasModels(
             id: controllerId.text, // Usando o controller para pegar o valor
             descritionDto: Descrition(
@@ -106,17 +115,19 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
           descritionDto: Descrition(id: '', descricao: ''),
           estaEmCelula: controllerEstaEmCelula.text,
           id: '',
-          tipoConversao: controllerTipoConversao
-              .text /*Descrition(id: '', descricao: controllerTipoConversao.text)*/);
+          tipoConversao: Descrition(
+              id: '',
+              descricao: controllerTipoConversao
+                  .text) /*Descrition(id: '', descricao: controllerTipoConversao.text)*/);
 
       if (index != null) {
-        novaLifeProvider.lifes[index] = novaVisita;
+        visitaProvider.lifes[index] = novaVisita;
       } else {
         //quantidades de visitante
-        int visitantesLength = novaLifeProvider.lifes.length;
+        int visitantesLength = visitaProvider.lifes.length;
 
         // Salva um novo visitante
-        novaLifeProvider.lifes.insert(visitantesLength, novaVisita);
+        visitaProvider.lifes.insert(visitantesLength, novaVisita);
 
         // navegar para a pagina visitante
         context.pop('/visitante');
@@ -124,9 +135,12 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
     }
 
     return Scaffold(
+      backgroundColor: HexColor('#2684b4'),
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: GlobalColor.AzulEscuroClaroColor,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: HexColor('#2684b4'),
         centerTitle: true,
         title: Text(title,
             style: const TextStyle(
@@ -134,77 +148,119 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
                 fontSize: 22,
                 fontWeight: FontWeight.bold)),
       ),
-      body: ContainerAll(
-        child: Form(
-          key: _key,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: [
-                FieldFormButton(
-                    label: 'Nome', controllerButton: controllerPessoa),
-                const SizedBox(
-                  height: 25,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ContainerAll(
+            child: Form(
+              key: _key,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    /*DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Situação',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                      hint: Text('Selecione uma opção'),
+                      value: controllerTipoConversao.text,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          situacaoSelecionada = newValue!;
+                        });
+                      },
+                      items: situacao.map((String valor) {
+                        return DropdownMenuItem<String>(
+                          value: valor,
+                          child: Text(valor),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),*/
+                    FieldFormButton(
+                      label: 'Nome',
+                      controllerButton: controllerPessoa,
+                      validator: (value) {
+                        // Adicione isso
+                        if (value == null || value.isEmpty) {
+                          return 'O nome não pode estar em branco!';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    FieldFormButton(
+                        label: 'Data',
+                        controllerButton: controllerDataUltimaVisita),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    TextFormField(
+                      controller: controllerNumeroTelefone,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Telefone',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                      validator: validarNumeroTelefone,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    FieldFormButton(
+                        label: 'Descrição',
+                        controllerButton: controllerTipoConversao),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    FieldFormButton(
+                        label: 'Está em Célula?',
+                        controllerButton: controllerEstaEmCelula),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    FieldFormButton(
+                      label: 'Convidado Por?',
+                      controllerButton: controllerConvidadoPor,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    FieldFormButton(
+                      label: 'Observção',
+                      controllerButton: controllerTipoConversao,
+                    ),
+                    const SizedBox(height: 50),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              GlobalColor.AzulEscuroClaroColor)),
+                      onPressed: savenovalifes,
+                      child: const Text('Salvar',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 20)),
+                    ),
+                  ],
                 ),
-                FieldFormButton(
-                    label: 'Data',
-                    controllerButton: controllerDataUltimaVisita),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextFormField(
-                  controller: controllerNumeroTelefone,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    labelText: 'Telefone',
-                    labelStyle: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide.none),
-                  ),
-                  validator: validarNumeroTelefone,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                FieldFormButton(
-                    label: 'Descrição',
-                    controllerButton: controllerTipoConversao),
-                const SizedBox(
-                  height: 25,
-                ),
-                FieldFormButton(
-                    label: 'Está em Célula?',
-                    controllerButton: controllerEstaEmCelula),
-                const SizedBox(
-                  height: 25,
-                ),
-                FieldFormButton(
-                  label: 'Convidado Por?',
-                  controllerButton: controllerConvidadoPor,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                FieldFormButton(
-                  label: 'Observção',
-                  controllerButton: controllerTipoConversao,
-                ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          GlobalColor.AzulEscuroClaroColor)),
-                  onPressed: savenovalifes,
-                  child: const Text('Salvar',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20)),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -225,9 +281,8 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
 
   String? validarNumeroTelefone(String? value) {
     if (value == null || value.isEmpty) {
-      return null;
+      return 'O campo não pode ficaem branco';
     }
-
     // Remove espaços, traços e parênteses para validar somente os dígitos
     final sanitizedValue = value.replaceAll(RegExp(r'[\s\-\(\)]'), '');
 

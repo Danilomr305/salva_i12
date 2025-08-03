@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 class GlobalColor {
   //backGroud principal
   static HexColor backGroudPrincipal = HexColor('#2684b4');
-
+  static HexColor colorWhite = HexColor('#000000');
   //Cor Buttons
   static HexColor buttonsColors = HexColor('#126ba9');
 
@@ -14,7 +14,7 @@ class GlobalColor {
 
   static HexColor mainColor = HexColor('#1E319D');
   static HexColor textColor = HexColor('#4F4F4F');
-  static HexColor temabackgroundColor = HexColor('#000000');
+
   static HexColor temabackground = HexColor('#FFFFFF');
 
   // Cores Azuls
