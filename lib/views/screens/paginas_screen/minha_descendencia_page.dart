@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
 import '../../../domain/core/themes/global_colors.dart';
-import '../../../data/provider/cadastros_provides/pessoas_provider.dart';
 
 class MinhaDescendenciaPage extends StatelessWidget {
   final String sigla;

@@ -1,5 +1,4 @@
 import 'package:i12mobile/data/provider/cadastros_provides/descendencia_provider.dart';
-import 'package:i12mobile/data/provider/cadastros_provides/pessoas_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/alunos_providers/alunos_ecd_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/alunos_providers/alunos_uni_vida_provider.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/ecd_provider.dart';
@@ -10,14 +9,16 @@ import 'package:i12mobile/data/provider/escada_do_sucesso_provider/ganhar/rota_d
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/univida_provider.dart';
 import 'package:i12mobile/data/provider/usuario_provider/usuario_provider.dart';
 import 'package:i12mobile/data/repository/ganhar/visita_repository.dart';
+import 'package:i12mobile/data/repository/gestao_de_pessoas_repository/membros_repository.dart';
 import 'package:provider/provider.dart';
 import '../../domain/services/auth_service.dart';
+import 'gestao_de_pessoas_providers/pessoas_provider.dart';
 
 final authService = AuthService();
 
 final providers = [
   ChangeNotifierProvider<PessoaProvider>(
-    create: (context) => PessoaProvider(),
+    create: (context) => PessoaProvider(MembrosRepository()),
   ),
   ChangeNotifierProvider<DescendenciaProvider>(
     create: (context) => DescendenciaProvider(),

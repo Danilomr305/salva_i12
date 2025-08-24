@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../../../../data/provider/cadastros_provides/pessoas_provider.dart';
+import '../../../../../data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
 import '../../../../../domain/models/model/pessoas_models.dart';
 import '../../../../../domain/core/themes/global_colors.dart';
 
@@ -21,11 +21,16 @@ class _PessoaPageState extends State<PessoaPage> {
   List<PessoasModels> allPessoas = [];
   List<PessoasModels> filteredPessoas = [];
   TextEditingController searchController = TextEditingController();
+  late PessoaProvider pessoaProvider;
 
   @override
   void initState() {
     super.initState();
-    _loadPessoas();
+    pessoaProvider = context.read<PessoaProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      pessoaProvider.listPessoas();
+      _loadPessoas();
+    });
   }
 
   @override
@@ -194,10 +199,9 @@ class _PessoaPageState extends State<PessoaPage> {
   }
 
   // Função para carregar os dados das pessoas
-  void _loadPessoas() {
+  void _loadPessoas() async {
     final userProvider = Provider.of<PessoaProvider>(context, listen: false);
-    futurePessoas =
-        userProvider.listPessoas("", "", "", "", ""); // Chamada assíncrona
+    await userProvider.listPessoas(); // Chamada assíncrona
     futurePessoas.then((pessoas) {
       setState(() {
         allPessoas = pessoas;

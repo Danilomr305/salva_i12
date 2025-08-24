@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:i12mobile/domain/core/themes/global_colors.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../data/provider/cadastros_provides/pessoas_provider.dart';
+import '../../../../../data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
 import '../../../../../domain/core/themes/containers_all_estilo.dart';
 import '../../../../widgets/field_form.dart';
 

@@ -23,12 +23,13 @@ import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/formularios_gan
 import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/paginas_ganhar_screen/rota_da_vida_page.dart';
 import 'package:i12mobile/views/screens/login/login_screen.dart';
 import 'package:i12mobile/views/screens/home/home_screen.dart';
-import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/formularios_membros_screen/pessoa_form.dart';
 import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/paginas_membros_screen/pessoa_paginas.dart';
 import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/visualizacao_membros_screen/pessoa_view.dart';
 import 'package:i12mobile/views/screens/perfil_screen.dart';
 import '../../views/screens/gestao_de_pessoas/descendencia/paginas_descendencia_screen/descendencia_page.dart';
 import '../../views/screens/gestao_de_pessoas/descendencia/visualizacao_descendencia_screen/descendencia_view.dart';
+import '../../views/screens/gestao_de_pessoas/membros/formularios_membros_screen/membro_form.dart';
+import '../../views/screens/gestao_de_pessoas/membros/paginas_membros_screen/membros_page.dart';
 import '../../views/screens/home/nova_life_page_wrapper.dart';
 import '../../views/screens/visualizacao_screen/alunos_uni_view.dart';
 import '../../views/screens/visualizacao_screen/registro_uni_view.dart';
@@ -61,7 +62,8 @@ final routes = GoRouter(initialLocation: '/boasVindas', routes: [
   ),
   GoRoute(
     path: '/pessoas',
-    builder: (context, state) => const PessoaPage(),
+    //builder: (context, state) => const PessoaPage(),
+    builder: (context, state) => const MembrosPage(),
   ),
   GoRoute(
     path: '/perfil',
@@ -116,10 +118,10 @@ final routes = GoRouter(initialLocation: '/boasVindas', routes: [
       }),
 
   //Paginas de criação de um nova pessoa
-  GoRoute(
-    path: '/createrPessoa',
-    builder: (context, state) => const PessoaForm(),
-  ),
+  /*GoRoute(
+    path: '/createrMembro',
+    builder: (context, state) => const MembroForm(),
+  ),*/
   GoRoute(
     path: '/createrVisitante/:igrejaId',
     builder: (context, state) {

@@ -30,25 +30,25 @@ class _CardsScreenState extends State<CardsScreen> {
         icon: Icons.group_add_outlined,
         routeName: '/novaVida'),
     CardItem(
-        title: "Minhas Células",
-        description: "Veja suas células",
-        icon: Icons.group,
-        routeName: '/celulas'),
+        title: "Membros",
+        description: "Gerencie seus membros",
+        icon: Icons.person,
+        routeName: '/pessoas'),
     CardItem(
         title: "Minha Descendencia",
         description: "Sua árvore",
         icon: Icons.family_restroom,
         routeName: '/minhaDescendencia'),
     CardItem(
+        title: "Minhas Células",
+        description: "Veja suas células",
+        icon: Icons.group,
+        routeName: '/celulas'),
+    CardItem(
         title: "Eventos",
         description: "Próximos eventos",
         icon: Icons.event,
         routeName: '/eventos'),
-    CardItem(
-        title: "Pessoas",
-        description: "Gerencie suas pessoas",
-        icon: Icons.person,
-        routeName: '/pessoas'),
     CardItem(
         title: "Calendário",
         description: "Agenda de atividades",

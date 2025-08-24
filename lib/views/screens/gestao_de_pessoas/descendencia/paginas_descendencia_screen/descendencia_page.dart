@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:i12mobile/data/provider/cadastros_provides/descendencia_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../../data/provider/cadastros_provides/pessoas_provider.dart';
+import '../../../../../data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
 import '../../../../../domain/models/model/descendencia.dart';
 import '../../../../../domain/core/themes/global_colors.dart';
 
@@ -92,7 +92,7 @@ class _DescendenciaPageState extends State<DescendenciaPage> {
                     onTap: () async {
                       final pessoaProvider =
                           Provider.of<PessoaProvider>(context, listen: false);
-                      await pessoaProvider.listPessoas('', '', '', '', '');
+                      await pessoaProvider.listPessoas();
                       context.push('/pessoasDescendencia',
                           extra: descendencia.sigla);
                     },
