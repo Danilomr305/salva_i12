@@ -1,9 +1,14 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:i12mobile/data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
+import 'package:i12mobile/domain/models/shared/descrition_model.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../../../domain/models/model/descendencia.dart';
 import '../../../../../../domain/models/model/igreja.dart';
+import '../../../../../../domain/models/model/pessoas_discipulos_models.dart';
 import '../../../../../../domain/models/model/pessoas_models.dart';
-import '../../../../../../domain/models/shared/descrition_model.dart';
+import '../../../../../../domain/models/shared/endereco_model.dart';
 
 class MembroFormController {
   //Isso vai formatar a data ja colocando 00/00/0000
@@ -15,45 +20,34 @@ class MembroFormController {
   // Adicione esta linha para armazenar o ID da igreja
   String? _igrejaId;
 
-  // Adicione uma propriedade para a lista de situações
-  late List<Descrition> situacoes;
-
   // Adicione este método para definir o ID
   void setIgrejaId(String? id) {
     _igrejaId = id;
   }
 
-  void setSituacoes(List<Descrition> lista) {
-    situacoes = lista;
-  }
-
   //Responsavel por salva cada visita nova
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // Controllers dos campos
+  final TextEditingController controllerDescritionDto = TextEditingController();
   final TextEditingController controllerId = TextEditingController();
   final TextEditingController controllerPessoa = TextEditingController();
-  final TextEditingController controllerDataUltimaVisita =
+  final TextEditingController controllerDataNascimento =
       TextEditingController();
-  final TextEditingController controllerPedidoOracao = TextEditingController();
-  final TextEditingController controllerNumeroTelefone =
-      TextEditingController();
-  final TextEditingController controllerNomeLiderCelula =
-      TextEditingController();
-  final TextEditingController controllerRazaoSocial = TextEditingController();
+  final TextEditingController controllerTelefone = TextEditingController();
   final TextEditingController controllerSigla = TextEditingController(); //
   final TextEditingController controllerConvidadoPor = TextEditingController();
   final TextEditingController controllerDescendencia = TextEditingController();
-  final TextEditingController controllerEstaEmCelula = TextEditingController();
-  final TextEditingController controllerTipoConversao = TextEditingController();
-  final TextEditingController controllerDescritionDto = TextEditingController();
-  final TextEditingController controllerTotalVisitas = TextEditingController();
   final TextEditingController controllerGenero = TextEditingController();
-  final TextEditingController controllerDataNascimento =
-      TextEditingController();
   final TextEditingController controllerIdDescendencia =
       TextEditingController();
+  final TextEditingController controllerIdade = TextEditingController();
+  final TextEditingController controllerEndereco = TextEditingController();
+  final TextEditingController controllerIgreja = TextEditingController();
+  final TextEditingController controllerTotalCelulas = TextEditingController();
+  final TextEditingController controllerDiscipulos = TextEditingController();
+  final TextEditingController controllerLider = TextEditingController();
 
-  void save(BuildContext context, VisitaProvider visitaProvider,
+  void save(BuildContext context, PessoaProvider pessoaProvider,
       {int? index}) async {
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -95,7 +89,7 @@ class MembroFormController {
     print('ID da Descendência no Controller: ${controllerDescendencia.text}');
 
 // Encontre o objeto DescendenciaModels completo a partir do ID selecionado
-    final descendenciaSelecionada = visitaProvider.descendencias.firstWhere(
+    final descendenciaSelecionada = pessoaProvider.descendencias.firstWhere(
       (desc) => desc.id == controllerIdDescendencia.text,
       orElse: () => DescendenciaModels
           .empty(), // Retorna um objeto vazio se não encontrar
@@ -106,66 +100,49 @@ class MembroFormController {
 
     // Agora, monte o objeto PessoasModels
     final pessoa = PessoasModels(
-      id: controllerId.text,
-      nome: controllerPessoa.text,
-      sexo: sexoServidor,
-      lider: '',
-      igreja: igrejaDoFormulario, // Use a instância de igreja criada
-      descritionDto: Descrition(
         id: controllerId.text,
-        descricao: controllerDescritionDto.text,
-      ),
-      descendencia: descendenciaSelecionada, // Use a instância de descendência
-    );
+        nome: controllerPessoa.text,
+        sexo: sexoServidor,
+        lider: '',
+        igreja: igrejaDoFormulario, // Use a instância de igreja criada
+        descritionDto: Descrition(
+          id: controllerId.text,
+          descricao: controllerDescritionDto.text,
+        ),
+        descendencia: descendenciaSelecionada,
+        telefone: '',
+        dataNascimento: DateTime(1900, 1, 1),
+        idade: 0,
+        endereco: Endereco.empty(),
+        totalCelulas: 0,
+        pessoasDiscipulos:
+            PessoasDiscipulosModels.empty() // Use a instância de descendência
+        );
 
-    // Encontre o ID da situação a partir da descrição
-    final situacaoSelecionada = situacoes.firstWhere(
-      (s) => s.descricao == controllerTipoConversao.text,
-      orElse: () => Descrition(
-          id: '', descricao: ''), // Retorna um objeto vazio se não encontrar
-    );
-
-    final tipoConversao = Descrition(
-      id: situacaoSelecionada.id,
-      descricao: situacaoSelecionada.descricao,
-    );
-
-    final novaVisita = PessoasModels(
-      id: '',
-      pessoa: pessoa,
-      dataUltimaVisita: controllerDataUltimaVisita.text,
-      totalVisitas: int.tryParse(controllerTotalVisitas.text) ?? 0,
-      pedidoOracao: controllerPedidoOracao.text,
-      numeroTelefone: controllerNumeroTelefone.text,
-      nomeLiderCelula: controllerNomeLiderCelula.text,
-      convidadoPor: controllerConvidadoPor.text,
-      descendencia: descendenciaSelecionada,
-      descritionDto: pessoa.descritionDto,
-      estaEmCelula: controllerEstaEmCelula.text,
-      tipoConversao: tipoConversao,
-    );
-
-    // Criar nova visita
-    final visitaForm = VisitaFormModel.fromDetalhe(novaVisita);
-    await visitaProvider.createVisitaForm(visitaForm);
-    context.pop('/visitante');
+    // Criar novo membro
+    //final membrosForm = PessoasModels.fromDetalhe(novaVisita);
+    final membrosForm = PessoasModels.fromPessoa(pessoa);
+    await pessoaProvider.createMembroForm(membrosForm);
+    context.pop('/membro');
   }
 
-  void loadFromSelected(VisitaProvider visitaProvider) {
-    if (visitaProvider.indexVisitas != null &&
-        visitaProvider.visitasSelected != null) {
-      final selected = visitaProvider.visitasSelected!;
+  void loadFromSelected(PessoaProvider pessoaProvider) {
+    if (pessoaProvider.indexPessoa != null &&
+        pessoaProvider.pessoaSelected != null) {
+      final selected = pessoaProvider.pessoaSelected!;
 
-      controllerPessoa.text = selected.pessoa.nome;
-      controllerDataUltimaVisita.text = selected.dataUltimaVisita;
-      controllerPedidoOracao.text = selected.pedidoOracao;
-      controllerNumeroTelefone.text = selected.numeroTelefone;
+      controllerPessoa.text = selected.nome;
+      controllerDataNascimento.text = selected.dataNascimento.toString();
+      controllerTelefone.text = selected.telefone;
       controllerDescendencia.text = selected.descendencia.sigla;
       controllerIdDescendencia.text = selected.descendencia.id;
-      controllerConvidadoPor.text = selected.convidadoPor;
-      controllerTipoConversao.text = selected.tipoConversao.descricao;
-      controllerEstaEmCelula.text = selected.estaEmCelula;
-      controllerTotalVisitas.text = selected.totalVisitas.toString();
+      controllerGenero.text = selected.sexo;
+      controllerIdade.text = selected.idade.toString();
+      controllerIgreja.text = selected.igreja.razaoSocial;
+      controllerTotalCelulas.text = selected.totalCelulas.toString();
+      controllerDiscipulos.text = selected.pessoasDiscipulos.toString();
+      controllerEndereco.text = selected.endereco.toString();
+      controllerLider.text = selected.lider;
     }
   }
-}*/
+}

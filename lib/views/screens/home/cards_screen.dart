@@ -33,7 +33,7 @@ class _CardsScreenState extends State<CardsScreen> {
         title: "Membros",
         description: "Gerencie seus membros",
         icon: Icons.person,
-        routeName: '/pessoas'),
+        routeName: '/membros'),
     CardItem(
         title: "Minha Descendencia",
         description: "Sua árvore",

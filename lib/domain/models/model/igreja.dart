@@ -18,7 +18,20 @@ class IgrejaModels extends BaseModel {
 
   factory IgrejaModels.fromJson(Map<String, dynamic> json) {
     return IgrejaModels(
-      id: json['id']?.toString() ??
+      id: (json['id'] ?? '').toString(),
+      descritionDto: json['descritionDto'] != null
+          ? Descrition.fromJson(json['descritionDto'])
+          : Descrition(id: '', descricao: ''),
+      razaoSocial: (json['razaoSocial'] ?? '').toString(),
+      sigla: (json['sigla'] ?? '').toString(),
+      nomeFantasia: (json['nomeFantasia'] ?? '').toString(),
+      documento: (json['documento'] ?? '').toString(),
+    );
+  }
+
+  /*factory IgrejaModels.fromJson(Map<String, dynamic> json) {
+    return IgrejaModels(
+      id: json['id'] ??
           '', // Converte para String ou usa string vazia se for null
       descritionDto: json['descritionDto'] != null
           ? Descrition.fromJson(json['descritionDto'])
@@ -32,7 +45,7 @@ class IgrejaModels extends BaseModel {
       documento: json['documento']?.toString() ??
           '', // Converte para String ou usa string vazia se for null
     );
-  }
+  }*/
 
   Map<String, dynamic> toJson() {
     return {

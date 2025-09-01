@@ -29,6 +29,7 @@ class _NovaLifePageState extends State<NovaLifePage> {
   @override
   void initState() {
     super.initState();
+    print("📍 IgrejaId recebido em VisitasPage: ${widget.igrejaId}");
     visitaProvider = context.read<VisitaProvider>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //print('ID da Igreja recebido pelo construtor: ${widget.igrejaId}');

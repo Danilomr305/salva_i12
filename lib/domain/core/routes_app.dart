@@ -3,6 +3,8 @@ import 'package:i12mobile/domain/core/home_lib.dart';
 import 'package:i12mobile/views/screens/boas_vinda_screen.dart';
 import 'package:i12mobile/views/screens/esqueci_senha_screen.dart';
 import 'package:i12mobile/views/screens/gestao_de_pessoas/descendencia/formularios_descendencia_screen/descendencia_form.dart';
+import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/formularios_membros_screen/membro_form.dart';
+import 'package:i12mobile/views/screens/home/membros_page_wrapper.dart';
 import 'package:i12mobile/views/screens/paginas_screen/pessoas_por_descendencia_page.dart';
 import 'package:i12mobile/views/screens/paginas_screen/aluno_uni_page.dart';
 import 'package:i12mobile/views/screens/formularios_screen/alunos_uni_form.dart';
@@ -18,17 +20,14 @@ import 'package:i12mobile/views/screens/paginas_screen/ecd_page.dart';
 import 'package:i12mobile/views/screens/visualizacao_screen/ecd_view.dart';
 import 'package:i12mobile/views/screens/visualizacao_screen/registros_ecd_view.dart';
 import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/formularios_ganhar_screen/visita_form.dart';
-import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/paginas_ganhar_screen/visita_page.dart';
 import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/formularios_ganhar_screen/rota_da_vida_form.dart';
 import 'package:i12mobile/views/screens/escada_do_sucesso/ganhar/paginas_ganhar_screen/rota_da_vida_page.dart';
 import 'package:i12mobile/views/screens/login/login_screen.dart';
 import 'package:i12mobile/views/screens/home/home_screen.dart';
-import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/paginas_membros_screen/pessoa_paginas.dart';
 import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/visualizacao_membros_screen/pessoa_view.dart';
 import 'package:i12mobile/views/screens/perfil_screen.dart';
 import '../../views/screens/gestao_de_pessoas/descendencia/paginas_descendencia_screen/descendencia_page.dart';
 import '../../views/screens/gestao_de_pessoas/descendencia/visualizacao_descendencia_screen/descendencia_view.dart';
-import '../../views/screens/gestao_de_pessoas/membros/formularios_membros_screen/membro_form.dart';
 import '../../views/screens/gestao_de_pessoas/membros/paginas_membros_screen/membros_page.dart';
 import '../../views/screens/home/nova_life_page_wrapper.dart';
 import '../../views/screens/visualizacao_screen/alunos_uni_view.dart';
@@ -118,10 +117,14 @@ final routes = GoRouter(initialLocation: '/boasVindas', routes: [
       }),
 
   //Paginas de criação de um nova pessoa
-  /*GoRoute(
-    path: '/createrMembro',
-    builder: (context, state) => const MembroForm(),
-  ),*/
+  GoRoute(
+    path: '/createrMembro/:igrejaId',
+    builder: (context, state) {
+      // Pega o ID da URL e o passa para a NovaVidaForm
+      final String? igrejaId = state.pathParameters['igrejaId'];
+      return MembroForm(igrejaId: igrejaId);
+    },
+  ),
   GoRoute(
     path: '/createrVisitante/:igrejaId',
     builder: (context, state) {
@@ -219,12 +222,12 @@ final routes = GoRouter(initialLocation: '/boasVindas', routes: [
     },
   ),
 
-  /*GoRoute(
-    path: '/novaVida',
+  GoRoute(
+    path: '/membros',
     builder: (context, state) {
-      return const NovaLifePage();
+      return const MembrosPageWrapper();
     },
-  ),*/
+  ),
   GoRoute(
     path: '/novaVida',
     builder: (context, state) {
