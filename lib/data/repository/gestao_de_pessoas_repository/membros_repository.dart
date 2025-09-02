@@ -25,7 +25,7 @@ class MembrosRepository {
   /// GET - Lista de membros
   Future<List<PessoasModels>> listPessoas({
     int page = 1,
-    int size = 48,
+    int size = 500,
   }) async {
     final token = await _getTokenPessoas();
     print('Token utilizado: $token');
@@ -61,6 +61,7 @@ class MembrosRepository {
   }
 
   ///---------------------------------------------------------------------------
+  /// GET - Lista de descendencias
   Future<List<DescendenciaModels>> listarDescendencias(String? igrejaId) async {
     if (igrejaId == null || igrejaId.isEmpty) {
       throw Exception("⚠️ O parâmetro igrejaId não pode ser nulo ou vazio.");

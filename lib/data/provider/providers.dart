@@ -10,6 +10,7 @@ import 'package:i12mobile/data/provider/escada_do_sucesso_provider/univida_provi
 import 'package:i12mobile/data/provider/usuario_provider/usuario_provider.dart';
 import 'package:i12mobile/data/repository/ganhar/visita_repository.dart';
 import 'package:i12mobile/data/repository/gestao_de_pessoas_repository/membros_repository.dart';
+import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/formularios_membros_screen/controller/membro_form_controller.dart';
 import 'package:provider/provider.dart';
 import '../../domain/services/auth_service.dart';
 import 'gestao_de_pessoas_providers/pessoas_provider.dart';
@@ -20,6 +21,8 @@ final providers = [
   ChangeNotifierProvider<PessoaProvider>(
     create: (context) => PessoaProvider(MembrosRepository()),
   ),
+  ChangeNotifierProvider<MembroFormController>(
+      create: (context) => MembroFormController()),
   ChangeNotifierProvider<DescendenciaProvider>(
     create: (context) => DescendenciaProvider(),
   ),

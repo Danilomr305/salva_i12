@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:i12mobile/data/provider/gestao_de_pessoas_providers/pessoas_provider.dart';
 import 'package:i12mobile/views/screens/gestao_de_pessoas/membros/formularios_membros_screen/controller/membro_form_controller.dart';
@@ -22,6 +21,7 @@ class _MembroFormState extends State<MembroForm> {
   String title = 'Novo Membro';
 
   final MembroFormController membroController = MembroFormController();
+
   late PessoaProvider pessoaProvider;
 
   @override
@@ -54,6 +54,7 @@ class _MembroFormState extends State<MembroForm> {
   @override
   Widget build(BuildContext context) {
     pessoaProvider = context.watch<PessoaProvider>();
+    //final controller = Provider.of<ForController>(context);
 
     return Scaffold(
       backgroundColor: HexColor('#2684b4'),
@@ -139,6 +140,10 @@ class _MembroFormState extends State<MembroForm> {
                         SelectItemPersonalisado(label: 'Masculino', value: 'M'),
                         SelectItemPersonalisado(label: 'Feminino', value: 'F'),
                       ],
+                      onChanged: (selectedValue) {
+                        membroController.controllerGenero.text =
+                            selectedValue ?? '';
+                      },
                     ),
                     const SizedBox(height: 25),
 
@@ -181,6 +186,83 @@ class _MembroFormState extends State<MembroForm> {
                     FieldFormButton(
                         label: 'Nome do Líder',
                         controllerButton: membroController.controllerLider),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: membroController.cepController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Cep',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                      keyboardType: TextInputType.number,
+                      maxLength: 8,
+                      onChanged: (value) {
+                        if (value.length == 8) {
+                          membroController.buscarEndereco(context, value);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: membroController.logradouroController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Logradouro',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: membroController.bairroController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Bairro',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: membroController.cidadeController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Cidade',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: membroController.estadoController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Estado',
+                        labelStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
 
                     const SizedBox(height: 50),
 

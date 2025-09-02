@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:i12mobile/data/provider/escada_do_sucesso_provider/ganhar/visitas_provider.dart';
-import 'package:i12mobile/domain/models/model/descendencia.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../domain/core/themes/global_colors.dart';
 import '../../../../../domain/models/model/ganhar/visita_detalhe_models.dart';
-import '../../../../../domain/models/shared/situacao_model.dart';
 
 class NovaLifePage extends StatefulWidget {
   final String? igrejaId;
@@ -45,8 +42,8 @@ class _NovaLifePageState extends State<NovaLifePage> {
   Widget build(BuildContext context) {
     VisitaProvider visitaProvider = context.watch<VisitaProvider>();
     List<VisitaDetalheModels> lifes = visitaProvider.visitas;
-    final List<SituacaoModel> situacoes = visitaProvider.situacoes;
-    final List<DescendenciaModels> descendencias = visitaProvider.descendencias;
+    // final List<SituacaoModel> situacoes = visitaProvider.situacoes;
+    // final List<DescendenciaModels> descendencias = visitaProvider.descendencias;
 
     lifes = lifes.map((lifesNome) {
       lifesNome.pessoa.nome = corrigirTexto(lifesNome.pessoa.nome);

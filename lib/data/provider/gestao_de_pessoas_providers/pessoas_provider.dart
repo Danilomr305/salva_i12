@@ -1,9 +1,7 @@
 // ignore_for_file: must_be_immutable, unnecessary_brace_in_string_interps, avoid_print, use_key_in_widget_constructors, avoid_renaming_method_parameters, overridden_fields, annotate_overrides, non_constant_identifier_names
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:i12mobile/data/repository/gestao_de_pessoas_repository/membros_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import '../../../domain/models/model/descendencia.dart';
 import '../../../domain/models/model/pessoas_models.dart';
 

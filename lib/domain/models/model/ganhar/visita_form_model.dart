@@ -101,7 +101,7 @@ class VisitaFormModel {
 
   factory VisitaFormModel.fromDetalhe(VisitaDetalheModels detalhe) {
     return VisitaFormModel(
-      id: detalhe.id ?? '',
+      id: detalhe.id,
       pessoa: detalhe.pessoa,
       tipoEvento: '', // Ajuste se tiver campo em detalhe
       pedidoOracao: detalhe.pedidoOracao,

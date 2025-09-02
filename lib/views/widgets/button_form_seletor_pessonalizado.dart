@@ -86,6 +86,7 @@ class _ButtonFormSeletorPessonalizadoState
                         onTap: () {
                           // Ao tocar, atualiza o controller e fecha a modal
                           // widget.controller.text = item.label;
+                          widget.controller.text = item.value;
                           widget.onChanged?.call(item.value);
                           Navigator.pop(context);
                         },
