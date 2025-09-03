@@ -217,18 +217,21 @@ class _NovaVidaFormState extends State<NovaVidaForm> {
                     const SizedBox(
                       height: 25,
                     ),
-                    TextFormField(
+                    TextField(
                       controller: visitaController.controllerNumeroTelefone,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [visitaController.telefoneMaskFormatter],
                       decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'Telefone',
-                        labelStyle: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none),
-                      ),
+                          labelText: 'Telefone',
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: '(99) 99999-9999',
+                          labelStyle: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none)),
+                      // ... outras propriedades
                     ),
                     const SizedBox(
                       height: 25,

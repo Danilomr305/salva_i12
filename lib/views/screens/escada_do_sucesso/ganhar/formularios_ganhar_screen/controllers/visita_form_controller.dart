@@ -46,6 +46,8 @@ class VisitaFormController {
   }
 
   //---------------------------------------------------------------------------------
+  final telefoneMaskFormatter = MaskTextInputFormatter(
+      mask: '(##) # ####-####', filter: {"#": RegExp(r'[0-9]')});
 
   //Isso vai formatar a data ja colocando 00/00/0000
   final dateMaskFormatter = MaskTextInputFormatter(
